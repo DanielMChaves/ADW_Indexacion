@@ -56,6 +56,30 @@ public class Init {
     }
 
     public static void initCase1(){
+        Statement stdatabase = null;
+        Statement sttables = null;
+        try {
+            stdatabase = connection_master.createStatement();
+            String database;
+            stdatabase.executeUpdate(database);
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }try{
+            connection_db0 = DriverManager.getConnection(url + db0, usr, passwd);
+            sttables= connection_db0.createStatement();
+            String tables;
+            sttables.executeUpdate(tables);
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
 
     }
 

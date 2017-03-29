@@ -98,14 +98,19 @@ public class Init {
                 "    ON UPDATE NO ACTION,\n" +
                 " CONSTRAINT reali2\n" +
                 " FOREIGN KEY (id_proyecto)\n" +
-                " REFERENCES ADW0.PROYECTO(id_proyecto)\n" +
+                " REFERENCES PROYECTO(id_proyecto)\n" +
                 " ON DELETE NO ACTION\n" +
                 "    ON UPDATE NO ACTION\n" +
                 ");");
         tableList.add("CREATE TABLE DELEGACION(\n" +
                 "  id_del INT PRIMARY KEY,\n" +
                 "  nombre VARCHAR(20)  NOT NULL,\n" +
-                "  id_jefe INT,\n" +
+                "  id_jefe INT NOT NULL,\n" +
+                " CONSTRAINT del\n" +
+                " FOREIGN KEY (id_jefe)\n" +
+                " REFERENCES EMPLEADO(id_emp)\n" +
+                " ON DELETE NO ACTION\n" +
+                "    ON UPDATE NO ACTION,\n" +
                 "  localizacion VARCHAR(40) NOT NULL,\n" +
                 "  fecha_inserccion DATE NOT NULL\n" +
                 ");");

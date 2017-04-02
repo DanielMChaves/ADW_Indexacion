@@ -437,6 +437,153 @@ public class Init {
 
     }
 
+    public static void initContentCase2(){
+
+        System.out.println("[" + db0 + "] Creating PUESTOs ...");
+
+        for(int i = 0; i < num_Puestos; i++){
+            Puesto p = new Puesto();
+            p.setNombre("puesto_" + (i+1));
+            Database.insertPuesto(connection_db0,db0,p);
+        }
+
+        System.out.println("[" + db0 + "] Creating CATEGORIAs in ...");
+
+        for(int i = 0; i < num_Categoria; i++){
+            Categoria c = new Categoria();
+            c.setCategoria("categoria_" + (i+1));
+            Database.insertCategoria(connection_db0,db0,c);
+        }
+
+        System.out.println("[" + db0 + "] Creating PROYECTOs in ...");
+
+        for(int i = 0; i < num_Proyecto; i++){
+            Proyecto p = new Proyecto();
+            p.setNombre("proyecto_" + (i+1));
+            p.setHoras_estimadas(2*(i+1));
+            p.setHoras_reales(i+1);
+            Database.insertProyecto(connection_db0,db0,p);
+        }
+
+        System.out.println("[" + db0 + "] Creating PERSONAs in ...");
+
+        for(int i = 0; i < num_Persona; i++){
+            Persona p = new Persona();
+            p.setDni("dni_" + (i+1));
+            p.setNombre("nombre_" + (i+1));
+            p.setApellido1("apellido1_" + (i+1));
+            p.setApellido2("apellido2_" + (i+1));
+            p.setGenero(true);
+            p.setLocalidad("localidad_persona_" + (i+1));
+            Database.insertPersona(connection_db0,db0,p);
+        }
+
+        System.out.println("[" + db0 + "] Creating INVENTARIOs in ...");
+
+        for(int i = 0; i < num_Inventario; i++){
+            Inventario in = new Inventario();
+            in.setElemento("elemento_" + (i+1));
+            in.setDescripcion("descripcion_elemento_" + (i+1));
+            in.setId_categoria(ThreadLocalRandom.current().nextInt(1, num_Categoria));
+            in.setPrecio(2*(i+1));
+            Database.insertInventario(connection_db0,db0,in);
+        }
+
+        System.out.println("[" + db0 + "] Creating EMPLEADOs without id_dep in ...");
+
+        dniList.clear();
+        for(int i = 0; i < num_Persona; i++){
+            dniList.add("dni_" + (i+1));
+        }
+
+        for(int i = 0; i < num_Empleado; i++){
+
+            int random = ThreadLocalRandom.current().nextInt(0, dniList.size());
+
+            Empleado e = new Empleado();
+            e.setDni(dniList.get(random));
+            dniList.remove(random);
+            e.setId_puesto(ThreadLocalRandom.current().nextInt(1, num_Puestos));
+            e.setHoras_semanales(2*(i+1));
+            e.setSalario(i+1);
+            Database.insertEmpleadoWithoutDepartment(connection_db0,db0,e);
+        }
+
+        System.out.println("[" + db0 + "] Creating realiza in ...");
+
+        for(int i = 0; i < num_Proyecto; i++){
+            R_realiza r = new R_realiza();
+            r.setId_emp(ThreadLocalRandom.current().nextInt(1, num_Empleado));
+            r.setId_proyecto(ThreadLocalRandom.current().nextInt(1, num_Proyecto));
+            Database.insertRealiza(connection_db0,db0,r);
+        }
+
+        System.out.println("[" + db0 + "] Creating DELEGACIONes in ...");
+
+        empleadoList.clear();
+        for(int i = 0; i < num_Persona; i++){
+            empleadoList.add(i+1);
+        }
+
+        for(int i = 0; i < num_Delegacion; i++){
+
+            int random = ThreadLocalRandom.current().nextInt(0, empleadoList.size());
+
+            Delegacion d = new Delegacion();
+            d.setNombre("delegacion_" + (i+1));
+            d.setId_jefe(empleadoList.get(random));
+            empleadoList.remove(random);
+            d.setLocalizacion("localidad_delegacion_" + (i+1));
+            Database.insertDelegacion(connection_db0,db0,d);
+        }
+
+        System.out.println("[" + db0 + "] Creating DEPARTAMENTos in ...");
+
+        empleadoList.clear();
+        for(int i = 0; i < num_Persona; i++){
+            empleadoList.add(i+1);
+        }
+
+        for(int i = 0; i < num_Departamento; i++){
+
+            int random = ThreadLocalRandom.current().nextInt(0, empleadoList.size());
+
+            Departamento d = new Departamento();
+            d.setNombre("departamento_" + (i+1));
+            d.setId_jefe(empleadoList.get(random));
+            empleadoList.remove(random);
+            Database.insertDepartamento(connection_db0,db0,d);
+        }
+
+        System.out.println("[" + db0 + "] Updating EMPLEADOs in ...");
+
+        for(int i = 0; i < num_Empleado; i++){
+            Empleado e = new Empleado();
+            e.setId_emp(i+1);
+            e.setId_dep(ThreadLocalRandom.current().nextInt(1, num_Departamento));
+            Database.insertEmpleadoWithDepartment(connection_db0,db0,e);
+        }
+
+        System.out.println("[" + db0 + "] Creating pertenece in ...");
+
+        for(int i = 0; i < num_Departamento; i++){
+            R_pertenece r = new R_pertenece();
+            r.setId_dep(ThreadLocalRandom.current().nextInt(1, num_Departamento));
+            r.setId_del(ThreadLocalRandom.current().nextInt(1, num_Delegacion));
+            Database.insertPertenece(connection_db0,db0,r);
+        }
+
+        System.out.println("[" + db0 + "] Creating tiene in ...");
+
+        for(int i = 0; i < num_Proyecto; i++){
+            R_tiene r = new R_tiene();
+            r.setId_dep(ThreadLocalRandom.current().nextInt(1, num_Departamento));
+            r.setId_inv(ThreadLocalRandom.current().nextInt(1, num_Inventario));
+            Database.insertTiene(connection_db0,db0,r);
+        }
+
+    }
+
     public static void main (String[] args){
 
         /*

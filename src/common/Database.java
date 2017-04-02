@@ -1,6 +1,8 @@
 package common;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -227,6 +229,38 @@ public class Database {
     }
 
     // Queries
+    public static List<Persona> getPersonas(Connection conn, String db){
+
+        List<Persona> result = new ArrayList<>();
+
+        String query = "SELECT * ";
+        query += "FROM " + db + ".PERSONA";
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Persona p = new Persona();
+                p.setDni(rs.getString("dni"));
+                p.setNombre(rs.getString("nombre"));
+                p.setApellido1(rs.getString("apellido1"));
+                p.setApellido2(rs.getString("apellido2"));
+                p.setGenero(rs.getBoolean("genero"));
+                p.setLocalidad(rs.getString("localidad"));
+                p.setFecha_insercion(rs.getDate("fecha_insercion"));
+                result.add(p);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     /**
     public static Chatroom[] getChatrooms() {

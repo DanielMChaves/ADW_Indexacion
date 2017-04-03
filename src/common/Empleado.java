@@ -10,7 +10,6 @@ public class Empleado {
     int id_dep;
     int horas_semanales;
     double salario;
-    Date fecha_insercion;
 
     public Empleado(){}
 
@@ -60,13 +59,5 @@ public class Empleado {
 
     public void setSalario(double salario) {
         this.salario = salario;
-    }
-
-    public Date getFecha_insercion() {
-        return fecha_insercion;
-    }
-
-    public void setFecha_insercion(Date fecha_insercion) {
-        this.fecha_insercion = fecha_insercion;
     }
 }

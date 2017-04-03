@@ -8,7 +8,6 @@ public class Delegacion {
     String nombre;
     int id_jefe;
     String localizacion;
-    Date fecha_insercion;
 
     public Delegacion(){}
 
@@ -42,13 +41,5 @@ public class Delegacion {
 
     public void setLocalizacion(String localizacion) {
         this.localizacion = localizacion;
-    }
-
-    public Date getFecha_insercion() {
-        return fecha_insercion;
-    }
-
-    public void setFecha_insercion(Date fecha_insercion) {
-        this.fecha_insercion = fecha_insercion;
     }
 }

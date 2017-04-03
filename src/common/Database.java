@@ -233,8 +233,8 @@ public class Database {
 
         List<Persona> result = new ArrayList<>();
 
-        String query = "SELECT * ";
-        query += "FROM " + db + ".PERSONA";
+        String query = "SELECT * " +
+                "FROM " + db + ".PERSONA";
 
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
@@ -249,7 +249,6 @@ public class Database {
                 p.setApellido2(rs.getString("apellido2"));
                 p.setGenero(rs.getBoolean("genero"));
                 p.setLocalidad(rs.getString("localidad"));
-                p.setFecha_insercion(rs.getDate("fecha_insercion"));
                 result.add(p);
             }
 
@@ -262,32 +261,26 @@ public class Database {
         return result;
     }
 
-    /**
-    public static Chatroom[] getChatrooms() {
+    public static List<Proyecto> getProyectos(Connection conn, String db){
 
-        Chatroom[] result = null;
+        List<Proyecto> result = new ArrayList<>();
 
-        String query = "SELECT * ";
-        query += "FROM chatrooms.CHATROOM ";
+        String query = "SELECT * " +
+                "FROM " + db + ".PROYECTO";
 
         try {
-            PreparedStatement sentence = connection.prepareStatement(query);
+            PreparedStatement sentence = conn.prepareStatement(query);
             ResultSet rs = sentence.executeQuery();
-
-            result = new Chatroom[rs.last() ? rs.getRow() : 0];
-            int i = 0;
-
-            rs.beforeFirst();
 
             while (rs.next()) {
 
-                result[i] = new Chatroom()
-                        .setId(rs.getInt("id"))
-                        .setName(rs.getString("name"))
-                        .setHandle_creator(rs.getString("handle_creator"))
-                        .setCreate_date(rs.getTimestamp("create_date"));
-
-                i++;
+                Proyecto p = new Proyecto();
+                p.setId_proyecto(rs.getInt("id_proyecto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setHoras_estimadas(rs.getInt("horas_estimadas"));
+                p.setHoras_reales(rs.getInt("horas_reales"));
+                p.setFecha_entrega(rs.getDate("fecha_entrega"));
+                result.add(p);
             }
 
             sentence.close();
@@ -297,7 +290,139 @@ public class Database {
         }
 
         return result;
-    }*/
+    }
 
+    public static List<Inventario> getInventarios(Connection conn, String db){
+
+        List<Inventario> result = new ArrayList<>();
+
+        String query = "SELECT * " +
+                "FROM " + db + ".INVENTARIO";
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Inventario i = new Inventario();
+                i.setId_inv(rs.getInt("id_inv"));
+                i.setElemento(rs.getString("elemento"));
+                i.setDescripcion(rs.getString("descripcion"));
+                i.setId_categoria(rs.getInt("id_categoria"));
+                i.setPrecio(rs.getDouble("precio"));
+                result.add(i);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<Empleado> getEmpleadosFromDepartamento(Connection conn, String db, int id_del){
+
+        List<Empleado> result = new ArrayList<>();
+
+        String query = "SELECT e.id_emp, e.dni, e.id_puesto, e.id_dep, e.horas_semanales, e.salario\n" +
+                "FROM DELEGACION del, DEPARTAMENTO dep, EMPLEADO e, pertenece p\n" +
+                "WHERE del.id_del = p.id_del\n" +
+                "AND p.id_dep = dep.id_dep\n" +
+                "AND dep.id_dep = e.id_dep\n" +
+                "AND del.id_del = " + id_del;
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Empleado e = new Empleado();
+                e.setId_emp(rs.getInt("id_emp"));
+                e.setDni(rs.getString("dni"));
+                e.setId_puesto(rs.getInt("id_puesto"));
+                e.setId_dep(rs.getInt("id_dep"));
+                e.setHoras_semanales(rs.getInt("horas_semanales"));
+                e.setSalario(rs.getDouble("salario"));
+                result.add(e);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<Proyecto> getProyectosFromDepartamento(Connection conn, String db, int id_del){
+
+        List<Proyecto> result = new ArrayList<>();
+
+        String query = "SELECT pro.id_proyecto, pro.nombre, pro.horas_estimadas, pro.horas_reales, pro.fecha_entrega\n" +
+                "FROM DELEGACION del, DEPARTAMENTO dep, EMPLEADO e, pertenece p, PROYECTO pro, realiza r\n" +
+                "WHERE del.id_del = p.id_del\n" +
+                "AND p.id_dep = dep.id_dep\n" +
+                "AND dep.id_dep = e.id_dep\n" +
+                "AND e.id_emp = r.id_emp\n" +
+                "AND r.id_proyecto = pro.id_proyecto\n" +
+                "AND del.id_del = " + id_del;
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Proyecto p = new Proyecto();
+                p.setId_proyecto(rs.getInt("id_proyecto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setHoras_estimadas(rs.getInt("horas_estimadas"));
+                p.setHoras_reales(rs.getInt("horas_reales"));
+                p.setFecha_entrega(rs.getDate("fecha_entrega"));
+                result.add(p);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static int getHorasEstimadasProyectosFromDepartamento(Connection conn, String db, int id_del){
+
+        int horas_estimadas = 0;
+
+        String query = "SELECT pro.horas_estimadas\n" +
+                "FROM DELEGACION del, DEPARTAMENTO dep, EMPLEADO e, pertenece p, PROYECTO pro, realiza r\n" +
+                "WHERE del.id_del = p.id_del\n" +
+                "AND p.id_dep = dep.id_dep\n" +
+                "AND dep.id_dep = e.id_dep\n" +
+                "AND e.id_emp = r.id_emp\n" +
+                "AND r.id_proyecto = pro.id_proyecto\n" +
+                "AND del.id_del = " + id_del;
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next())
+                horas_estimadas += rs.getInt("horas_estimadas");
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return horas_estimadas;
+    }
 
 }

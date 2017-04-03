@@ -6,7 +6,6 @@ public class Puesto {
 
     int id_puesto;
     String nombre;
-    Date fecha_insercion;
 
     public Puesto(){}
 
@@ -24,13 +23,5 @@ public class Puesto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public Date getFecha_insercion() {
-        return fecha_insercion;
-    }
-
-    public void setFecha_insercion(Date fecha_insercion) {
-        this.fecha_insercion = fecha_insercion;
     }
 }

@@ -9,7 +9,6 @@ public class Proyecto {
     int horas_estimadas;
     int horas_reales;
     Date fecha_entrega;
-    Date fecha_insercion;
 
     public Proyecto(){}
 
@@ -51,13 +50,5 @@ public class Proyecto {
 
     public void setFecha_entrega(Date fecha_entrega) {
         this.fecha_entrega = fecha_entrega;
-    }
-
-    public Date getFecha_insercion() {
-        return fecha_insercion;
-    }
-
-    public void setFecha_insercion(Date fecha_insercion) {
-        this.fecha_insercion = fecha_insercion;
     }
 }

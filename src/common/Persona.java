@@ -10,7 +10,6 @@ public class Persona {
     String apellido2;
     boolean genero;
     String localidad;
-    Date fecha_insercion;
 
     public Persona(){}
 
@@ -60,13 +59,5 @@ public class Persona {
 
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
-    }
-
-    public Date getFecha_insercion() {
-        return fecha_insercion;
-    }
-
-    public void setFecha_insercion(Date fecha_insercion) {
-        this.fecha_insercion = fecha_insercion;
     }
 }

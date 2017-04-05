@@ -35,7 +35,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 1: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Persona> result = Database.getPersonas(connection_db0,db0);
+        List<Persona> result = Database.getPersonas(connection_db0);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 1: " + result.size() + " results");
         System.out.println("[Case 1] Test 1: " + ( time_end - time_start ) + " milliseconds");
@@ -46,7 +46,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 2: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Proyecto> result = Database.getProyectos(connection_db0,db0);
+        List<Proyecto> result = Database.getProyectos(connection_db0);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 2: " + result.size() + " results");
         System.out.println("[Case 1] Test 2: " + ( time_end - time_start ) + " milliseconds");
@@ -57,7 +57,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 3: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Inventario> result = Database.getInventarios(connection_db0,db0);
+        List<Inventario> result = Database.getInventarios(connection_db0);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 3: " + result.size() + " results");
         System.out.println("[Case 1] Test 3: " + ( time_end - time_start ) + " milliseconds");
@@ -68,7 +68,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 4: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Empleado> result = Database.getEmpleadosFromDepartamento(connection_db0,db0,id_del);
+        List<Empleado> result = Database.getEmpleadosFromDepartamento(connection_db0, id_del);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 4: " + result.size() + " results");
         System.out.println("[Case 1] Test 4: " + ( time_end - time_start ) + " milliseconds");
@@ -79,7 +79,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 5: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Proyecto> result = Database.getProyectosFromDepartamento(connection_db0,db0,id_del);
+        List<Proyecto> result = Database.getProyectosFromDepartamento(connection_db0, id_del);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 5: " + result.size() + " results");
         System.out.println("[Case 1] Test 5: " + ( time_end - time_start ) + " milliseconds");
@@ -90,7 +90,7 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 6: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        int result = Database.getHorasEstimadasProyectosFromDepartamento(connection_db0,db0, id_del);
+        int result = Database.getHorasEstimadasProyectosFromDepartamento(connection_db0, id_del);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 6: " + result + " results");
         System.out.println("[Case 1] Test 6: " + ( time_end - time_start ) + " milliseconds");
@@ -101,10 +101,21 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 7: " + msg + " cache");
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-        List<Inventario> result = Database.getInventariosFromDelegacion(connection_db0,db0, id_del);
+        List<Inventario> result = Database.getInventariosFromDelegacion(connection_db0, id_del);
         time_end = System.currentTimeMillis();
         System.out.println("[Case 1] Tets 7: " + result.size() + " results");
         System.out.println("[Case 1] Test 7: " + ( time_end - time_start ) + " milliseconds");
+    }
+
+    private static void test_8(String msg, int id_del){
+
+        System.out.println("[Case 1] Test 8: " + msg + " cache");
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
+        List<Puesto> result = Database.getPuestosFromDelegacion(connection_db0, id_del);
+        time_end = System.currentTimeMillis();
+        System.out.println("[Case 1] Tets 8: " + result.size() + " results");
+        System.out.println("[Case 1] Test 8: " + ( time_end - time_start ) + " milliseconds");
     }
 
     public static void main(String[] args){
@@ -131,14 +142,14 @@ public class Test_case_1 {
         test_3("With");
 
         System.out.println("**************************************************************");
-        System.out.println("[Case 1] Test 4: EMPLEADOs in a DELEGACION");
+        System.out.println("[Case 1] Test 4: EMPLEADOs from DELEGACION");
         System.out.println("**************************************************************");
         test_4("Without", 50);
         System.out.println("--------------------------------------------------------------");
         test_4("With", 50);
 
         System.out.println("**************************************************************");
-        System.out.println("[Case 1] Test 5: PROYECTOs in a DELEGACION");
+        System.out.println("[Case 1] Test 5: PROYECTOs from DELEGACION");
         System.out.println("**************************************************************");
         test_5("Without", 50);
         System.out.println("--------------------------------------------------------------");
@@ -152,11 +163,18 @@ public class Test_case_1 {
         test_6("With", 50);
 
         System.out.println("**************************************************************");
-        System.out.println("[Case 1] Test 7: INVENTARIOs in a DELEGACION");
+        System.out.println("[Case 1] Test 7: INVENTARIOs from DELEGACION");
         System.out.println("**************************************************************");
         test_7("Without", 50);
         System.out.println("--------------------------------------------------------------");
         test_7("With", 50);
+
+        System.out.println("**************************************************************");
+        System.out.println("[Case 1] Test 8: PUESTOs from DELEGACION");
+        System.out.println("**************************************************************");
+        test_8("Without", 50);
+        System.out.println("--------------------------------------------------------------");
+        test_8("With", 50);
 
     }
 }

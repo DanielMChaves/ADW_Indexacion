@@ -229,12 +229,12 @@ public class Database {
     }
 
     // Queries
-    public static List<Persona> getPersonas(Connection conn, String db){
+    public static List<Persona> getPersonas(Connection conn){
 
         List<Persona> result = new ArrayList<>();
 
         String query = "SELECT * " +
-                "FROM " + db + ".PERSONA";
+                "FROM PERSONA";
 
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
@@ -261,12 +261,12 @@ public class Database {
         return result;
     }
 
-    public static List<Proyecto> getProyectos(Connection conn, String db){
+    public static List<Proyecto> getProyectos(Connection conn){
 
         List<Proyecto> result = new ArrayList<>();
 
         String query = "SELECT * " +
-                "FROM " + db + ".PROYECTO";
+                "FROM PROYECTO";
 
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
@@ -292,12 +292,12 @@ public class Database {
         return result;
     }
 
-    public static List<Inventario> getInventarios(Connection conn, String db){
+    public static List<Inventario> getInventarios(Connection conn){
 
         List<Inventario> result = new ArrayList<>();
 
         String query = "SELECT * " +
-                "FROM " + db + ".INVENTARIO";
+                "FROM INVENTARIO";
 
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
@@ -323,7 +323,7 @@ public class Database {
         return result;
     }
 
-    public static List<Empleado> getEmpleadosFromDepartamento(Connection conn, String db, int id_del){
+    public static List<Empleado> getEmpleadosFromDepartamento(Connection conn, int id_del){
 
         List<Empleado> result = new ArrayList<>();
 
@@ -359,7 +359,7 @@ public class Database {
         return result;
     }
 
-    public static List<Proyecto> getProyectosFromDepartamento(Connection conn, String db, int id_del){
+    public static List<Proyecto> getProyectosFromDepartamento(Connection conn, int id_del){
 
         List<Proyecto> result = new ArrayList<>();
 
@@ -396,7 +396,7 @@ public class Database {
         return result;
     }
 
-    public static int getHorasEstimadasProyectosFromDepartamento(Connection conn, String db, int id_del){
+    public static int getHorasEstimadasProyectosFromDepartamento(Connection conn, int id_del){
 
         int horas_estimadas = 0;
 
@@ -425,7 +425,7 @@ public class Database {
         return horas_estimadas;
     }
 
-    public static List<Inventario> getInventariosFromDelegacion(Connection conn, String db, int id_del){
+    public static List<Inventario> getInventariosFromDelegacion(Connection conn, int id_del){
 
         List<Inventario> result = new ArrayList<>();
 
@@ -461,4 +461,36 @@ public class Database {
         return result;
     }
 
+    public static List<Puesto> getPuestosFromDelegacion(Connection conn, int id_del){
+
+        List<Puesto> result = new ArrayList<>();
+
+        String query = "SELECT pu.id_puesto, pu.nombre\n" +
+                "FROM DELEGACION del, DEPARTAMENTO dep, EMPLEADO e, pertenece p, PUESTO pu\n" +
+                "WHERE del.id_del = p.id_del\n" +
+                "AND p.id_dep = dep.id_dep\n" +
+                "AND dep.id_dep = e.id_dep\n" +
+                "AND e.id_puesto = pu.id_puesto\n" +
+                "AND del.id_del = " + id_del + "\n" +
+                "GROUP BY pu.id_puesto";
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+                Puesto p = new Puesto();
+                p.setId_puesto(rs.getInt("id_puesto"));
+                p.setNombre(rs.getString("nombre"));
+                result.add(p);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

@@ -96,6 +96,17 @@ public class Test_case_1 {
         System.out.println("[Case 1] Test 6: " + ( time_end - time_start ) + " milliseconds");
     }
 
+    private static void test_7(String msg, int id_del){
+
+        System.out.println("[Case 1] Test 7: " + msg + " cache");
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
+        List<Inventario> result = Database.getInventariosFromDelegacion(connection_db0,db0, id_del);
+        time_end = System.currentTimeMillis();
+        System.out.println("[Case 1] Tets 7: " + result.size() + " results");
+        System.out.println("[Case 1] Test 7: " + ( time_end - time_start ) + " milliseconds");
+    }
+
     public static void main(String[] args){
 
         System.out.println("**************************************************************");
@@ -139,6 +150,13 @@ public class Test_case_1 {
         test_6("Without", 50);
         System.out.println("--------------------------------------------------------------");
         test_6("With", 50);
+
+        System.out.println("**************************************************************");
+        System.out.println("[Case 1] Test 7: INVENTARIOs in a DELEGACION");
+        System.out.println("**************************************************************");
+        test_7("Without", 50);
+        System.out.println("--------------------------------------------------------------");
+        test_7("With", 50);
 
     }
 }

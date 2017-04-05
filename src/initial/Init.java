@@ -29,24 +29,24 @@ public class Init {
     private static final List<String> tableList = new ArrayList<>();
 
     // Valores de prueba
-    private static final int num_Puestos = 100;
+    /*private static final int num_Puestos = 100;
     private static final int num_Categoria = 100;
     private static final int num_Proyecto = 100;
     private static final int num_Persona = 100;
     private static final int num_Inventario = 100;
     private static final int num_Empleado = 100;
     private static final int num_Delegacion = 100;
-    private static final int num_Departamento = 100;
+    private static final int num_Departamento = 100;*/
 
     // Valores Reales
-    /*private static final int num_Puestos = 100;
-    private static final int num_Categoria = 10;
-    private static final int num_Proyecto = 500000;
-    private static final int num_Persona = 200000;
-    private static final int num_Inventario = 100000;
-    private static final int num_Empleado = 100000;
-    private static final int num_Delegacion = 100;
-    private static final int num_Departamento = 1000;*/
+    private static final int num_Puestos = 1000;
+    private static final int num_Categoria = 100;
+    private static final int num_Proyecto = 5000000;
+    private static final int num_Persona = 2000000;
+    private static final int num_Inventario = 1000000;
+    private static final int num_Empleado = 1000000;
+    private static final int num_Delegacion = 1000;
+    private static final int num_Departamento = 10000;
 
     private static List<String> dniList = new ArrayList<>();
     private static List<Integer> empleadoList = new ArrayList<Integer>();

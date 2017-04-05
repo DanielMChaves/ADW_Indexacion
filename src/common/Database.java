@@ -425,4 +425,40 @@ public class Database {
         return horas_estimadas;
     }
 
+    public static List<Inventario> getInventariosFromDelegacion(Connection conn, String db, int id_del){
+
+        List<Inventario> result = new ArrayList<>();
+
+        String query = "SELECT i.id_inv, i.elemento, i.descripcion, i.id_categoria, i.precio\n" +
+                "FROM DELEGACION del, pertenece p, DEPARTAMENTO dep, tiene t, INVENTARIO i\n" +
+                "WHERE del.id_del = p.id_del\n" +
+                "AND p.id_dep = dep.id_dep\n" +
+                "AND dep.id_dep = t.id_dep\n" +
+                "AND t.id_inv = i.id_inv\n" +
+                "AND del.id_del = " + id_del;
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Inventario i = new Inventario();
+                i.setId_inv(rs.getInt("id_inv"));
+                i.setElemento(rs.getString("elemento"));
+                i.setDescripcion(rs.getString("descripcion"));
+                i.setId_categoria(rs.getInt("id_categoria"));
+                i.setPrecio(rs.getDouble("precio"));
+                result.add(i);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }

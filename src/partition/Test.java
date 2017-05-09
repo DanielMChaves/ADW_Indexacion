@@ -1,11 +1,8 @@
-package case_1;
-
-import common.*;
+package partition;
 
 import java.sql.*;
-import java.util.List;
 
-public class Test_case_1 {
+public class Test {
 
     private static Connection connection_db0 = null;
 
@@ -29,6 +26,8 @@ public class Test_case_1 {
             e.printStackTrace();
         }
     }
+
+    /*
 
     private static void test_1(String msg){
 
@@ -177,4 +176,6 @@ public class Test_case_1 {
         test_8("With", 50);
 
     }
+
+    */
 }

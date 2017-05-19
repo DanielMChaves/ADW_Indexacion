@@ -15,28 +15,92 @@ public class Init {
 
     private static final String db0 = "adw0";
 
-    private static final int num_Puestos = 100;
-    private static final int num_Empleado = 100;
-    private static final int num_Departamento = 100;
+    private static final int num_Puestos = 100000;
+    private static final int num_Empleado = 100000;
+    private static final int num_Departamento = 100000;
 
     private static List<String> dniList = new ArrayList<>();
     private static List<String> tableList = new ArrayList<>();
 
     static {
 
+        // TABLA ORIGINAL
         tableList.add("CREATE TABLE EMPLEADO0(\n" +
-                "  id_empleado INT PRIMARY KEY auto_increment,\n" +
+                "  id_empleado INT,\n" +
                 "  nombre VARCHAR(20) NOT NULL,\n" +
                 "  apellido1 VARCHAR(20) NOT NULL,\n" +
-                "  apellido2 VARCHAR(20),\n" +
-                "  dni VARCHAR(20) NOT NULL,\n" +
-                "  genero BOOLEAN NOT NULL,\n" +
-                "  edad INT NOT NULL,\n" +
-                "  id_puesto INT NOT NULL,\n" +
-                "  id_departamento INT NOT NULL,\n" +
-                "  horas_semanales INT NOT NULL,\n" +
-                "  salario INT NOT NULL,\n" +
-                "  fecha_contratacion DATE NOT NULL\n" +
+                "  apellido2 VARCHAR(20) ,\n" +
+                "  dni VARCHAR(20) NOT NULL DEFAULT '0000',\n" +
+                "  genero BOOLEAN NOT NULL DEFAULT TRUE,\n" +
+                "  edad INT NOT NULL DEFAULT 0,\n" +
+                "  id_puesto INT NOT NULL DEFAULT 0,\n" +
+                "  id_departamento INT NOT NULL DEFAULT 0,\n" +
+                "  horas_semanales INT NOT NULL DEFAULT 8,\n" +
+                "  salario INT NOT NULL DEFAULT 0,\n" +
+                "  fecha_contratacion DATE NOT NULL DEFAULT '9999-12-31'\n" +
+                ");");
+
+        // PARTICION POR FECHA
+        tableList.add("CREATE TABLE EMPLEADO1(\n" +
+                "  id_empleado INT,\n" +
+                "  nombre VARCHAR(20) NOT NULL,\n" +
+                "  apellido1 VARCHAR(20) NOT NULL,\n" +
+                "  apellido2 VARCHAR(20) ,\n" +
+                "  dni VARCHAR(20) NOT NULL DEFAULT '0000',\n" +
+                "  genero BOOLEAN NOT NULL DEFAULT TRUE,\n" +
+                "  edad INT NOT NULL DEFAULT 0,\n" +
+                "  id_puesto INT NOT NULL DEFAULT 0,\n" +
+                "  id_departamento INT NOT NULL DEFAULT 0,\n" +
+                "  horas_semanales INT NOT NULL DEFAULT 8,\n" +
+                "  salario INT NOT NULL DEFAULT 0,\n" +
+                "  fecha_contratacion DATE NOT NULL DEFAULT '9999-12-31'\n" +
+                ");");
+
+        tableList.add("ALTER TABLE EMPLEADO1\n" +
+                " PARTITION BY RANGE(YEAR(fecha_contratacion))(\n" +
+                " PARTITION p0 VALUES LESS THAN (1970),  \n" +
+                " PARTITION p1 VALUES LESS THAN (1980),  \n" +
+                " PARTITION p2 VALUES LESS THAN MAXVALUE \n" +
+                "); ");
+
+        // PARTICION POR EDAD
+        tableList.add("CREATE TABLE EMPLEADO2(\n" +
+                "  id_empleado INT,\n" +
+                "  nombre VARCHAR(20) NOT NULL,\n" +
+                "  apellido1 VARCHAR(20) NOT NULL,\n" +
+                "  apellido2 VARCHAR(20) ,\n" +
+                "  dni VARCHAR(20) NOT NULL DEFAULT '0000',\n" +
+                "  genero BOOLEAN NOT NULL DEFAULT TRUE,\n" +
+                "  edad INT NOT NULL DEFAULT 0,\n" +
+                "  id_puesto INT NOT NULL DEFAULT 0,\n" +
+                "  id_departamento INT NOT NULL DEFAULT 0,\n" +
+                "  horas_semanales INT NOT NULL DEFAULT 8,\n" +
+                "  salario INT NOT NULL DEFAULT 0,\n" +
+                "  fecha_contratacion DATE NOT NULL DEFAULT '9999-12-31'\n" +
+                ");");
+
+        tableList.add("ALTER TABLE EMPLEADO2\n" +
+                "PARTITION BY RANGE (edad) (\n" +
+                "\tPARTITION p0 VALUES LESS THAN (18),\n" +
+                "\tPARTITION p1 VALUES LESS THAN (30),\n" +
+                "\tPARTITION p2 VALUES LESS THAN (50),\n" +
+                "\tPARTITION p3 VALUES LESS THAN MAXVALUE\n" +
+                ");");
+
+        // PARTICION POR ____
+        tableList.add("CREATE TABLE EMPLEADO3(\n" +
+                "  id_empleado INT,\n" +
+                "  nombre VARCHAR(20) NOT NULL,\n" +
+                "  apellido1 VARCHAR(20) NOT NULL,\n" +
+                "  apellido2 VARCHAR(20) ,\n" +
+                "  dni VARCHAR(20) NOT NULL DEFAULT '0000',\n" +
+                "  genero BOOLEAN NOT NULL DEFAULT TRUE,\n" +
+                "  edad INT NOT NULL DEFAULT 0,\n" +
+                "  id_puesto INT NOT NULL DEFAULT 0,\n" +
+                "  id_departamento INT NOT NULL DEFAULT 0,\n" +
+                "  horas_semanales INT NOT NULL DEFAULT 8,\n" +
+                "  salario INT NOT NULL DEFAULT 0,\n" +
+                "  fecha_contratacion DATE NOT NULL DEFAULT '9999-12-31'\n" +
                 ");");
 
         host = "localhost";
@@ -55,7 +119,7 @@ public class Init {
         }
     }
 
-    public static void initCase1(){
+    public static void init(){
 
         try {
             System.out.println("[" + db0 + "] Creating Database ...");
@@ -108,6 +172,7 @@ public class Init {
 
             Empleado e = new Empleado();
 
+            e.setId_empleado(i+1);
             e.setNombre("nombre_" + (i+1));
             e.setApellido1("apellido1_" + (i+1));
             e.setApellido2("apellido2_" + (i+1));
@@ -127,21 +192,23 @@ public class Init {
             e.setFecha_contratacion(randomDate());
 
             Database.insertEmpleado(connection_db0,db0,0,e);
+            Database.insertEmpleado(connection_db0,db0,1,e);
+            Database.insertEmpleado(connection_db0,db0,2,e);
+            Database.insertEmpleado(connection_db0,db0,3,e);
         }
     }
 
     public static Timestamp randomDate(){
 
-        long fecha1 = ThreadLocalRandom.current().nextLong(1000000, 1000000000);
-        long fecha2 = ThreadLocalRandom.current().nextLong(1000000, 1000000000);
-        long a = fecha1 * 6 + fecha2 * 7 + fecha1 * 8 + fecha2 * 9 + fecha1 * 6 + fecha2 * 7 + fecha1 * 8 + fecha2 * 9;
-        // random date between the range
+        long long_fecha1 = ThreadLocalRandom.current().nextLong(1000, 1000000);
+        long long_fecha2 = ThreadLocalRandom.current().nextLong(1000, 1000000);
+        String fecha = Long.toString(long_fecha1) + Long.toString(long_fecha2);
 
-        return new Timestamp(a^512);
+        return new Timestamp(Long.parseLong(fecha));
     }
 
     public static void main (String[] args){
-        initCase1();
+        init();
         System.out.println("\nInit Finish!!!");
     }
 }

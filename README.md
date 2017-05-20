@@ -10,7 +10,7 @@
 
 ## Anteproyecto
 
-### Resumen
+### Resumen
 
 Dada una base de datos con mucha complejidad en el modelo relacional y que almacena una gran cantidad de información, 
 el indexado y filtrado de los datos es complejo y costoso. Debido a esto, el tiempo de respuesta de la base de datos 

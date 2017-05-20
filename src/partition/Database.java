@@ -124,10 +124,54 @@ public class Database {
 
         if(table == 0)
             query = "SELECT * FROM EMPLEADO" + table + " " +
-                    "WHERE fecha_contratacion BETWEEN 32 AND 48";
+                    "WHERE edad BETWEEN 32 AND 48";
         else
             query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p2)" +
-                    "WHERE fecha_contratacion BETWEEN 32 AND 48";
+                    "WHERE edad BETWEEN 32 AND 48";
+
+        try {
+            PreparedStatement sentence = conn.prepareStatement(query);
+            ResultSet rs = sentence.executeQuery();
+
+            while (rs.next()) {
+
+                Empleado e = new Empleado();
+                e.setId_empleado(rs.getInt("id_empleado"));
+                e.setNombre(rs.getString("nombre"));
+                e.setApellido1(rs.getString("apellido1"));
+                e.setApellido2(rs.getString("apellido2"));
+                e.setDni(rs.getString("dni"));
+                e.setGenero(rs.getBoolean("genero"));
+                e.setEdad(rs.getInt("edad"));
+                e.setId_puesto(rs.getInt("id_puesto"));
+                e.setId_departamento(rs.getInt("id_departamento"));
+                e.setHoras_semanales(rs.getInt("horas_semanales"));
+                e.setSalario(rs.getInt("salario"));
+                e.setFecha_contratacion(rs.getTimestamp("fecha_contratacion"));
+                result.add(e);
+            }
+
+            sentence.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static ArrayList<Empleado> getEmpleadosDepartment1_1000(Connection conn, int table){
+
+        ArrayList<Empleado> result = new ArrayList<>();
+
+        String query;
+
+        if(table == 0)
+            query = "SELECT * FROM EMPLEADO" + table + " " +
+                    "WHERE id_departamento BETWEEN 1 AND 1000";
+        else
+            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p0)" +
+                    "WHERE id_departamento BETWEEN 1 AND 1000";
 
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
@@ -163,7 +207,7 @@ public class Database {
     // Auxiliar
     public static String getPartition(int index){
 
-        String type = "";
+        String type;
 
         switch (index){
             case 0:
@@ -176,7 +220,7 @@ public class Database {
                 type = "Age";
                 break;
             case 3:
-                type = "PUTO ANGELOTE";
+                type = "Department";
                 break;
             default:
                 type = "Error";

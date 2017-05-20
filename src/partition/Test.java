@@ -9,7 +9,7 @@ public class Test {
 
     private static String host, passwd, port, url, usr;
 
-    private static final String db0 = "ADW0";
+    private static final String db0 = "pruebaE1";
 
     static {
         host = "localhost";
@@ -61,6 +61,17 @@ public class Test {
         System.out.println(( time_end - time_start ) + " milliseconds");
     }
 
+    private static void test_4(int table){
+
+        System.out.println(Database.getPartition(table) + " Table");
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
+        ArrayList<Empleado> result = Database.getEmpleadosDepartment1_1000(connection_db0,table);
+        time_end = System.currentTimeMillis();
+        System.out.println(result.size() + " results");
+        System.out.println(( time_end - time_start ) + " milliseconds");
+    }
+
     public static void main(String[] args){
 
         System.out.println("**************************************************************");
@@ -73,7 +84,6 @@ public class Test {
         test_1(2);
         System.out.println("--------------------------------------------------------------");
         test_1(3);
-
 
         System.out.println("**************************************************************");
         System.out.println("Test 2: Get All EMPLEADOS in 90s");
@@ -92,11 +102,11 @@ public class Test {
 
 
         System.out.println("**************************************************************");
-        System.out.println("Test 2: Get All EMPLEADOS PUTO ANGELOTE");
+        System.out.println("Test 4: Get All EMPLEADOS in Department 1 to 1000 ");
         System.out.println("**************************************************************");
-        test_1(0);
+        test_4(0);
         System.out.println("--------------------------------------------------------------");
-        test_1(3);
+        test_4(3);
 
     }
 }

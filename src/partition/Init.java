@@ -13,11 +13,11 @@ public class Init {
 
     private static String host, passwd, port, query, url, usr;
 
-    private static final String db0 = "adw0";
+    private static final String db0 = "pruebaE1";
 
-    private static final int num_Puestos = 100000;
-    private static final int num_Empleado = 100000;
-    private static final int num_Departamento = 100000;
+    private static final int num_Puestos = 1000000;
+    private static final int num_Empleado = 1000000;
+    private static final int num_Departamento = 1000000;
 
     private static List<String> dniList = new ArrayList<>();
     private static List<String> tableList = new ArrayList<>();
@@ -87,7 +87,7 @@ public class Init {
                 "\tPARTITION p3 VALUES LESS THAN MAXVALUE\n" +
                 ");");
 
-        // PARTICION POR ____
+        // PARTICION POR DEPARTMENT
         tableList.add("CREATE TABLE EMPLEADO3(\n" +
                 "  id_empleado INT,\n" +
                 "  nombre VARCHAR(20) NOT NULL,\n" +
@@ -101,6 +101,14 @@ public class Init {
                 "  horas_semanales INT NOT NULL DEFAULT 8,\n" +
                 "  salario INT NOT NULL DEFAULT 0,\n" +
                 "  fecha_contratacion DATE NOT NULL DEFAULT '9999-12-31'\n" +
+                ");");
+
+        tableList.add("ALTER TABLE EMPLEADO3\n" +
+                "PARTITION BY RANGE (id_departamento)\n" +
+                "(PARTITION p0 VALUES LESS THAN (" + num_Departamento/4 + "),\n" +
+                "PARTITION p1 VALUES LESS THAN (" + num_Departamento/3 + "),\n" +
+                "PARTITION p2 VALUES LESS THAN (" + num_Departamento/2 + "),\n" +
+                "PARTITION p3 VALUES LESS THAN MAXVALUE\n" +
                 ");");
 
         host = "localhost";

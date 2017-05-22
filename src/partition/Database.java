@@ -82,7 +82,7 @@ public class Database {
             query = "SELECT * FROM EMPLEADO" + table + " " +
                     "WHERE fecha_contratacion BETWEEN '1990-01-01' AND '1999-12-31' ";
         else
-            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p2)" +
+            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p0,p1,p2)" +
                     "WHERE fecha_contratacion BETWEEN '1990-01-01' AND '1999-12-31' ";
 
         try {
@@ -126,7 +126,7 @@ public class Database {
             query = "SELECT * FROM EMPLEADO" + table + " " +
                     "WHERE edad BETWEEN 32 AND 48";
         else
-            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p2)" +
+            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p0,p1,p2,p3)" +
                     "WHERE edad BETWEEN 32 AND 48";
 
         try {
@@ -170,7 +170,7 @@ public class Database {
             query = "SELECT * FROM EMPLEADO" + table + " " +
                     "WHERE id_departamento BETWEEN 1 AND 1000";
         else
-            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p0)" +
+            query = "SELECT * FROM EMPLEADO" + table + " PARTITION (p0,p1,p2,p3)" +
                     "WHERE id_departamento BETWEEN 1 AND 1000";
 
         try {

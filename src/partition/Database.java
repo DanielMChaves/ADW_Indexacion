@@ -41,6 +41,11 @@ public class Database {
 
         String query = "SELECT * FROM EMPLEADO" + table;
 
+        if(table == 1)
+            query += " PARTITION (p0,p1,p2)";
+        if(table == 2 || table == 3)
+            query += " PARTITION (p0,p1,p2,p3)";
+
         try {
             PreparedStatement sentence = conn.prepareStatement(query);
             ResultSet rs = sentence.executeQuery();

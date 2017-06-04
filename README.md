@@ -42,7 +42,7 @@ son sus puntos débiles, de tal manera que podamos realizar a posteriori otro es
 cuales se va a realizar un análisis teórico y un caso práctico para poder observar el correcto o el incorrecto 
 funcionamiento de la solución implementada.
 
-### Estimación Temporal
+### Estimación Temporal
 
 La estimación del tiempo que nos tomará la realización de este proyecto será de 6 horas semanales durante 3 semanas. 
 De esta manera se dedicará una semana a cada tarea a realizar.
